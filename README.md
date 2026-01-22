@@ -1,43 +1,218 @@
-### Prerequisites
+Universe Relational Database System
+Overview
 
-1. [Docker Engine](https://docs.docker.com/engine/)
-1. [VS Code](https://code.visualstudio.com/download) and the [Dev Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers) extension
-1. Git
+The Universe Relational Database System is a PostgreSQL database designed to model a simplified universe made up of galaxies, stars, planets, and moons. 
+It demonstrates strong relational design, data integrity, and practical SQL development.
 
-### How to Run a Project in Docker
+This project was completed as part of the freeCodeCamp Relational Database Certification, specifically the Celestial Bodies Database project.
 
-1. Clone the RDB Alpha repo with `git clone https://github.com/freeCodeCamp/rdb-alpha`
-1. Open a terminal, navigate to the `rdb-alpha` directory, and open VSCode with `code .`
-1. Press Ctrl / Cmd + Shift + P and enter `Dev Containers: Rebuild Container and Reopen in Container`
-1. A new VS Code window will open and begin building the Docker image. It will take several minutes to build the first time.
-1. Once the image is finished building, press Ctrl / Cmd + Shift + P and enter `CodeRoad: Start` to open CodeRoad
-1. In the CodeRoad window, click "Start New Tutorial"
-1. Enter the URL to the `tutorial.json` file of the project you want to start (ex: https://raw.githubusercontent.com/freeCodeCamp/learn-bash-by-building-a-boilerplate/main/tutorial.json)
-1. Click the "Start" button
+Purpose of the Project
 
-There may be some additional troubleshooting steps to get the container running properly. They can often be solved by following the onscreen instructions, or examining any error messages in your terminal.
+This project demonstrates the ability to:
 
-### How to Restart or Switch Projects
+Translate a real-world domain into a relational database model
 
-Note: If you restart or switch projects you will lose your progress, along with any files or directories you created.
+Create normalized tables with clear relationships
 
-1. Press Ctrl / Cmd + Shift + P and enter `Dev Containers: Rebuild Container`
-1. Wait for VS Code to reopen and reload the Docker container
-1. Open CodeRoad, enter the URL to a `tutorial.json` file, and start the project as described above
+Enforce data integrity using constraints
 
-### `tutorial.json` File URLs for CodeRoad
+Export and restore a database using PostgreSQL tools
 
-- [Learn Bash by Building a Boilerplate](https://raw.githubusercontent.com/freeCodeCamp/learn-bash-by-building-a-boilerplate/main/tutorial.json)
-- [Learn Relational Databases by Building a Database of Video Game Characters](https://raw.githubusercontent.com/freeCodeCamp/learn-relational-databases-by-building-a-database-of-video-game-characters/main/tutorial.json)
-- [Celestial Bodies Database](https://raw.githubusercontent.com/freeCodeCamp/learn-celestial-bodies-database/main/tutorial.json)
-- [Learn Bash Scripting by Building Five Programs](https://raw.githubusercontent.com/freeCodeCamp/learn-bash-scripting-by-building-five-programs/main/tutorial.json)
-- [Learn SQL by Building a Student Database: Part 1](https://raw.githubusercontent.com/freeCodeCamp/learn-sql-by-building-a-student-database-part-1/main/tutorial.json)
-- [Learn SQL by Building a Student Database: Part 2](https://raw.githubusercontent.com/freeCodeCamp/learn-sql-by-building-a-student-database-part-2/main/tutorial.json)
-- [World Cup Database](https://raw.githubusercontent.com/freeCodeCamp/learn-world-cup-database/main/tutorial.json)
-- [Learn Advanced Bash by Building a Kitty Ipsum Translator](https://raw.githubusercontent.com/freeCodeCamp/learn-advanced-bash-by-building-a-kitty-ipsum-translator/main/tutorial.json)
-- [Learn Bash and SQL by Building a Bike Rental Shop](https://raw.githubusercontent.com/freeCodeCamp/learn-bash-and-sql-by-building-a-bike-rental-shop/main/tutorial.json)
-- [Salon Appointment Scheduler](https://raw.githubusercontent.com/freeCodeCamp/learn-salon-appointment-scheduler/main/tutorial.json)
-- [Learn Nano by Building a Castle](https://raw.githubusercontent.com/freeCodeCamp/learn-nano-by-building-a-castle/main/tutorial.json)
-- [Learn Git by Building an SQL Reference Object](https://raw.githubusercontent.com/freeCodeCamp/learn-git-by-building-an-sql-reference-object/main/tutorial.json)
-- [Periodic Table Database](https://raw.githubusercontent.com/freeCodeCamp/learn-periodic-table-database/main/tutorial.json)
-- [Number Guessing Game](https://raw.githubusercontent.com/freeCodeCamp/learn-number-guessing-game/main/tutorial.json)
+It also serves as a portfolio project showing backend and database fundamentals.
+
+Database Design
+Tables
+
+The database contains five tables:
+
+galaxy
+
+star
+
+planet
+
+moon
+
+galaxy_types
+
+Each table uses an auto-incrementing primary key and includes meaningful attributes relevant to the entity it represents.
+
+Relationships
+
+Each star belongs to one galaxy
+
+Each planet belongs to one star
+
+Each moon belongs to one planet
+
+galaxy_types classifies galaxy structures
+
+All relationships are enforced using foreign key constraints.
+
+Key Features
+
+Auto-incrementing primary keys
+
+Foreign key relationships between tables
+
+UNIQUE constraints on name columns
+
+NOT NULL constraints for required fields
+
+Use of multiple data types:
+
+INT
+
+NUMERIC
+
+TEXT
+
+BOOLEAN
+
+Fully reproducible SQL dump
+
+Sample Data Included
+
+The database includes sample data for immediate use:
+
+6 galaxies
+
+6 stars
+
+12 planets
+
+20 moons
+
+3 galaxy types
+
+File Included
+
+universe.sql
+A complete PostgreSQL dump containing:
+
+Database creation
+
+Table schemas
+
+Constraints
+
+Sequences
+
+Sample data inserts
+
+How to Use
+Requirements
+
+PostgreSQL installed
+
+psql command line access
+
+Restore the Database
+psql -U postgres < universe.sql
+
+
+This will drop any existing universe database, recreate it, create all tables, and insert the sample data.
+
+Connect to the Database
+psql --username=freecodecamp --dbname=postgres
+
+
+Inside psql:
+
+\c universe
+
+Verify the Setup
+\dt
+
+SELECT COUNT(*) FROM galaxy;
+SELECT COUNT(*) FROM star;
+SELECT COUNT(*) FROM planet;
+SELECT COUNT(*) FROM moon;
+SELECT COUNT(*) FROM galaxy_types;
+
+Example SQL Queries
+
+Use these queries to explore the database.
+
+1 List all galaxies
+SELECT galaxy_id, name, galaxy_type, distance_from_earth
+FROM galaxy
+ORDER BY galaxy_id;
+
+2 Show stars and the galaxy they belong to
+SELECT s.name AS star, g.name AS galaxy
+FROM star s
+JOIN galaxy g ON s.galaxy_id = g.galaxy_id
+ORDER BY g.name, s.name;
+
+3 Show planets and their stars
+SELECT p.name AS planet, s.name AS star
+FROM planet p
+JOIN star s ON p.star_id = s.star_id
+ORDER BY s.name, p.name;
+
+4 Show moons and their planets
+SELECT m.name AS moon, p.name AS planet
+FROM moon m
+JOIN planet p ON m.planet_id = p.planet_id
+ORDER BY p.name, m.name;
+
+5 Count planets per star
+SELECT s.name AS star, COUNT(p.planet_id) AS planet_count
+FROM star s
+LEFT JOIN planet p ON s.star_id = p.star_id
+GROUP BY s.name
+ORDER BY planet_count DESC, s.name;
+
+6 Count moons per planet
+SELECT p.name AS planet, COUNT(m.moon_id) AS moon_count
+FROM planet p
+LEFT JOIN moon m ON p.planet_id = m.planet_id
+GROUP BY p.name
+ORDER BY moon_count DESC, p.name;
+
+7 Find planets that have life
+SELECT name, planet_type, distance_from_star_au
+FROM planet
+WHERE has_life = TRUE;
+
+8 List all spherical moons with radius
+SELECT name, radius_km
+FROM moon
+WHERE is_spherical = TRUE
+ORDER BY radius_km DESC;
+
+9 Show all objects in the Milky Way
+SELECT g.name AS galaxy, s.name AS star, p.name AS planet, m.name AS moon
+FROM galaxy g
+JOIN star s ON s.galaxy_id = g.galaxy_id
+LEFT JOIN planet p ON p.star_id = s.star_id
+LEFT JOIN moon m ON m.planet_id = p.planet_id
+WHERE g.name = 'Milky Way'
+ORDER BY s.name, p.name, m.name;
+
+Skills Demonstrated
+
+Relational database modeling
+
+PostgreSQL schema design
+
+SQL joins and constraints
+
+Data normalization
+
+Database export and restoration
+
+Practical querying and reporting
+
+Project Links
+
+Repository
+https://github.com/Wise222/rdb-alpha
+
+Raw SQL dump
+https://raw.githubusercontent.com/Wise222/rdb-alpha/master/universe.sql
+
+Author
+
+Wisdom Muke
